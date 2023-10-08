@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+:root{
+    --bg-color:#191919;
+    --card-bg:#064663;
+    --font-color-primary:#fafafa;
+}
+
+body{
+    background-color: var(--bg-color);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header{
+    padding:2rem;
+}
+
+.header-1{
+    font-size:3rem;
+    color:var(--font-color-primary);
+}
+
+.card{
+    width:18rem;
+    border-radius: 4px;
+    background-color: var(--card-bg);
+}
+
+.card-img-container{
+    width: 100%;
+    height: 18rem;
+}
+
+.card-image{
+    width: 100%;
+    height:100%;
+    object-fit:contain;
+    position: center center;
+}
+
+.movie-details{
+    margin:10px 0px;
+    color:var(--font-color-primary);
+    padding :4px;
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.title{
+    font-size:1.1rem;
+}
+
+.genre{
+    font-size:0.875rem;
+}
+
+.ratings{
+    display: flex;
+    justify-content: space-between;
+}
+
+.star-rating{
+    display: flex;
+    align-items: center;
+    gap:4px;
+}
+
