@@ -1,4 +1,9 @@
 const parentElement = document.querySelector(".main")
+const searchInput = document.querySelector(".input");
+
+
+let searchValue="";
+let filteredArrOfMovies = [];
 
 const URL = "https://movies-app.prakashsakari.repl.co/api/movies";
 
@@ -94,4 +99,30 @@ const createMovieCard = (movies) =>{
   }
 };
 
+function handleSearch (event) {
+
+    searchValue=event.target.value.toLowerCase();
+
+    filteredArrOfMovies =
+    searchValue?.length > 0
+      ? movies.filter(
+          (movie) =>
+            searchValue === movie.name.toLowerCase() ||
+            searchValue === movie.director_name.toLowerCase() ||
+            movie.writter_name.toLowerCase().split(",").includes(searchValue) ||
+            movie.cast_name.toLowerCase().split(",").includes(searchValue)
+        )
+      : movies;
+
+    console.log(filteredArrOfMovies);
+
+}
+
+searchInput.addEventListener("keyup",handleSearch);
+
 createMovieCard(movies);
+
+
+
+
+
