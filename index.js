@@ -1,8 +1,10 @@
 const parentElement = document.querySelector(".main")
 const searchInput = document.querySelector(".input");
+const movieRatings = document.querySelector(".rating-select");
 
 
 let searchValue="";
+let ratings = 0;
 let filteredArrOfMovies = [];
 
 const URL = "https://movies-app.prakashsakari.repl.co/api/movies";
@@ -99,26 +101,61 @@ const createMovieCard = (movies) =>{
   }
 };
 
+function getFilteredData(){
+  filteredArrOfMovies =
+  searchValue?.length > 0
+    ? movies.filter(
+        (movie) =>
+          searchValue === movie.name.toLowerCase() ||
+          searchValue === movie.director_name.toLowerCase() ||
+          movie.writter_name.toLowerCase().split(",").includes(searchValue) ||
+          movie.cast_name.toLowerCase().split(",").includes(searchValue)
+      )
+    : movies;
+
+    if (ratings > 0) {
+      filteredArrOfMovies =
+        searchValue?.length > 0 ? filteredArrOfMovies : movies;
+      filteredArrOfMovies = filteredArrOfMovies.filter(
+        (movie) => movie.imdb_rating >= ratings
+      );
+    }
+
+    return filteredArrOfMovies;
+}
+
 function handleSearch (event) {
 
     searchValue=event.target.value.toLowerCase();
-
-    filteredArrOfMovies =
-    searchValue?.length > 0
-      ? movies.filter(
-          (movie) =>
-            searchValue === movie.name.toLowerCase() ||
-            searchValue === movie.director_name.toLowerCase() ||
-            movie.writter_name.toLowerCase().split(",").includes(searchValue) ||
-            movie.cast_name.toLowerCase().split(",").includes(searchValue)
-        )
-      : movies;
-
-    console.log(filteredArrOfMovies);
+    let filterBySearch = getFilteredData();
+    parentElement.innerHTML = "";
+    createMovieCard(filterBySearch);
 
 }
 
-searchInput.addEventListener("keyup",handleSearch);
+function debounce(callback,delay){
+  let timerId;
+
+  return (...args)=>{
+    clearTimeout(timerId);
+      timerId = setTimeout(() => {
+      callback(...args)
+      },delay); 
+  }
+}
+
+function handleRatingSelector(event) {
+  ratings = event.target.value;
+  let filterByRating = getFilteredData();
+  parentElement.innerHTML = "";
+  createMovieCard(ratings ? filterByRating : movies);
+}
+
+const debounceInput = debounce(handleSearch, 500);
+
+searchInput.addEventListener("keyup",debounceInput)
+
+movieRatings.addEventListener("change", handleRatingSelector);
 
 createMovieCard(movies);
 

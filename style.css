@@ -34,6 +34,13 @@ body {
     color:var(--font-color-primary); 
 }
 
+.options{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap:10px;
+}
+
 .search-container{
     margin-left: auto;
 }
@@ -46,6 +53,19 @@ body {
     color: var(--font-color-primary);
     font-size: 1.25rem;
     width:25rem;
+}
+
+.rating-select{
+    background-color: transparent;
+    border: 2px solid var(--card-bg);
+    border-radius: 4px;
+    padding:8px;
+    color: var(--font-color-primary);
+    font-size: 1.25rem;
+}
+
+.option{
+    background-color: var(--bg-color);
 }
 
 .main{
