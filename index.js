@@ -1,10 +1,12 @@
 const parentElement = document.querySelector(".main")
 const searchInput = document.querySelector(".input");
-const movieRatings = document.querySelector(".rating-select");
+const movieRatings = document.querySelector("#rating-select");
+const movieGenres = document.querySelector("#genre-select");
 
 
 let searchValue="";
 let ratings = 0;
+let genre="";
 let filteredArrOfMovies = [];
 
 const URL = "https://movies-app.prakashsakari.repl.co/api/movies";
@@ -121,6 +123,12 @@ function getFilteredData(){
       );
     }
 
+    if(genre?.length>0){
+      filteredArrOfMovies = searchValue?.length>0 || ratings > 7 ? filteredArrOfMovies:movies;
+      filteredArrOfMovies = filteredArrOfMovies.filter(movie => 
+        movie.genre.includes(genre));
+    }
+
     return filteredArrOfMovies;
 }
 
@@ -157,6 +165,35 @@ searchInput.addEventListener("keyup",debounceInput)
 
 movieRatings.addEventListener("change", handleRatingSelector);
 
+const genres = movies.reduce((acc,cur)=>{
+  let genresArr=[];
+  let tempGenresArr = cur.genre.split(",");
+  acc = [...acc,...tempGenresArr];
+  for(let genre of acc){
+    if(!genresArr.includes(genre)){
+      genresArr = [...genresArr,genre]
+    }
+  }
+  return genresArr;
+},[]);
+
+for(let genre of genres){
+  const option = createElement("option");
+  option.classList.add("option");
+  option.setAttribute("value",genre);
+  option.innerText = genre;
+  movieGenres.appendChild(option);
+}
+
+function handleGenreSelect(event){
+  genre = event.target.value;
+  const filteredMoviesByGenre = getFilteredData();
+  parentElement.innerHTML="";
+  createMovieCard(genre ? filteredMoviesByGenre : movies);
+}
+
+movieGenres.addEventListener("change",handleGenreSelect);
+ 
 createMovieCard(movies);
 
 
